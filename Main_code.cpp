@@ -10,25 +10,30 @@ class player{
         int point;
         int answer;
         float timing;
-
     public:
         void nameInput();
         void answerInput();
-        void getTime();
-
+        void getTime(float t);
+        void checkAnswer();
 };
 
 void player::nameInput(){
     // nhập tên người chơi
     cout<<"Player's name : ";
     cin >>name;
-    cout<<name<<", are ready ?"<<"\n";
+    cout<<name<<", are ready ?\n";
 };
 
 void player::answerInput(){
     // nhập câu trả lời của người chơi
     cin >>answer;
 }
+
+void player::getTime(float t){
+    timing = t;
+    cout<<"Your time : "<<timing<<" seconds\n";
+}
+
 
 void count_down(){
     // đếm ngược để người chơi chuẩn bị
@@ -60,6 +65,7 @@ class question{
         int result;
     public:
         void generateQuestion();
+        friend void player::checkAnswer(); 
 
 };
 
@@ -91,8 +97,11 @@ int main(){
         system("cls");
         // tính thgian kết thúc lượt chơi và in ra
         auto end = std::chrono::steady_clock::now();
-        std::chrono::duration<double> elapsed_time = end - start;
-        cout <<"Your time :"<<elapsed_time.count()<<"seconds"<<"\n"; 
+        std::chrono::duration <double> t = end - start;
+        float time = t.count();
+        p1.getTime(time);
+        
+
 
         //hỏi player có muốn tiếp tục chơi hay không
         cout<<"Do you want to continue? (Y/N)"<<"\n"; 
