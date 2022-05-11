@@ -2,3 +2,5 @@
             -------------------------
 11/5/2022 
 - V Huy khởi tạo các file làm việc chính 
+- V Huy, tạo 2 class Player và Question, 2 hàm nhập tên người chơi và nhập câu trả lời của người chơi
+- V Huy, tạo hàm countdown(), generateQuestion(), 
