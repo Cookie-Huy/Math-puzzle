@@ -4,3 +4,8 @@
 - V Huy khởi tạo các file làm việc chính 
 - V Huy, tạo 2 class Player và Question, 2 hàm nhập tên người chơi và nhập câu trả lời của người chơi
 - V Huy, tạo hàm countdown(), generateQuestion(), getTime()
+ 
+12/5/2022
+- V Huy, code phần so sánh câu trả lời của người chơi và đáp án câu hỏi, tạo hàm getPoint() để cộng điểm cho người chơi khi trả lời đúng
+- Rẽ nhánh , Ngọc Huy - code phần tính năng chế độ game giới hạn màn chơi theo thời gian
+- Rẽ nhánh , Văn Huy - code phần tính năng chọn độ khó cho màn chơi

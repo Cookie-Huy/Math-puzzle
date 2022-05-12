@@ -1,0 +1,2 @@
+<1> Slide KTLT lap trinh huong doi tuong.pptx - của thầy Viễn
+<2> Thư viện <chrono> C++ https://en.cppreference.com/w/cpp/chrono
