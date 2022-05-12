@@ -80,7 +80,7 @@ class question{
     public:
         void generateQuestion();
         int getResult();
-
+        
 };
 
 void question::generateQuestion(){
@@ -112,33 +112,32 @@ int main(){
     //bắt đầu trò chơi
     while(true){ 
         
+        int quizNumber = 10;
         start_f(); // bắt đầu vào game
         count_down(); // chuẩn bị vào game
             
         while(true){
             auto start = std::chrono::steady_clock::now(); //bắt đầu tính giờ
-                while(true){
+            while(quizNumber--){
                 q1.generateQuestion(); //khởi tạo câu hỏi
                 int temp_result = q1.getResult();
 
                 p1.answerInput(); //người chơi nhập câu trả lời
                 int temp_answer = p1.getAnswerInput();
-                Sleep(1000);
+                Sleep(300);
 
                 if(temp_answer == temp_result){
                     p1.getPoint();
-                } else {
-                    break;
                 }
-                }
+            }
 
-            
             system("cls");
             // tính thgian kết thúc lượt chơi và in ra
             auto end = std::chrono::steady_clock::now();
             std::chrono::duration <double> t = end - start;
             float time = t.count();
             p1.getTime(time);
+            break;
         }
         
 
