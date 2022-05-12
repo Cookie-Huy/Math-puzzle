@@ -13,8 +13,9 @@ class player{
     public:
         void nameInput();
         void answerInput();
+        int getAnswerInput();
         void getTime(float t);
-        void checkAnswer();
+        void getPoint();
 };
 
 void player::nameInput(){
@@ -27,6 +28,7 @@ void player::nameInput(){
 void player::answerInput(){
     // nhập câu trả lời của người chơi
     cin >>answer;
+    cout<<"Player's answer : "<<answer<<"\n";
 }
 
 void player::getTime(float t){
@@ -34,16 +36,28 @@ void player::getTime(float t){
     cout<<"Your time : "<<timing<<" seconds\n";
 }
 
+int player::getAnswerInput(){
+    return answer;
+}
+
+void player::getPoint(){
+    system("cls");
+    point++;
+    cout<<"Points : "<<point;
+    Sleep(1000);
+}
+
 
 void count_down(){
     // đếm ngược để người chơi chuẩn bị
-    for(int i=5;i>0;i--){
+    for(int i=3;i>0;i--){
         system("cls");
         cout<<i;
         Sleep(1000);
     }
     system("cls");
-    cout<<"---Start---"<<"\n";
+    cout<<"---Start---";;
+    Sleep(1000);
 }
 
 void start_f(){
@@ -65,16 +79,23 @@ class question{
         int result;
     public:
         void generateQuestion();
-        friend void player::checkAnswer(); 
+        int getResult();
 
 };
 
-void generateQuestion(){
+void question::generateQuestion(){
     system("cls");
-    int a = rand();
-    int b = rand();
+    a = rand()%10;
+    b = rand()%10;
+    result = a + b;
     cout<<a<<" + "<<b<<" = ";
 }
+
+int question::getResult(){
+    return result;
+}
+
+
 int main(){
     //làm sạch terminal
     system("cls");
@@ -82,24 +103,43 @@ int main(){
     //khởi tạo người chơi mặc định
     player p1;
     p1.nameInput(); //người chơi nhập tên
-    //Sleep(1000);
+    
+    question q1; // khởi tạo câu hỏi mặc định
+
+    
+    
     
     //bắt đầu trò chơi
     while(true){ 
         
         start_f(); // bắt đầu vào game
         count_down(); // chuẩn bị vào game
-        auto start = std::chrono::steady_clock::now(); //bắt đầu tính giờ
-        generateQuestion(); //khởi tạo câu hỏi
-        p1.answerInput(); //người chơi nhập câu trả lời
+            
+        while(true){
+            auto start = std::chrono::steady_clock::now(); //bắt đầu tính giờ
+                while(true){
+                q1.generateQuestion(); //khởi tạo câu hỏi
+                int temp_result = q1.getResult();
 
-        
-        system("cls");
-        // tính thgian kết thúc lượt chơi và in ra
-        auto end = std::chrono::steady_clock::now();
-        std::chrono::duration <double> t = end - start;
-        float time = t.count();
-        p1.getTime(time);
+                p1.answerInput(); //người chơi nhập câu trả lời
+                int temp_answer = p1.getAnswerInput();
+                Sleep(1000);
+
+                if(temp_answer == temp_result){
+                    p1.getPoint();
+                } else {
+                    break;
+                }
+                }
+
+            
+            system("cls");
+            // tính thgian kết thúc lượt chơi và in ra
+            auto end = std::chrono::steady_clock::now();
+            std::chrono::duration <double> t = end - start;
+            float time = t.count();
+            p1.getTime(time);
+        }
         
 
 
@@ -111,7 +151,6 @@ int main(){
         if(continiu=='N' || continiu=='n') break; //thoát khởi trò chơi
         else continue; //tiếp tục chơi
     }
-    
     
     
     cout<<"Thank you for your times";
