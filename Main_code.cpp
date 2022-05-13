@@ -22,7 +22,7 @@ void player::nameInput(){
     // nhập tên người chơi
     cout<<"Player's name : ";
     cin >>name;
-    cout<<name<<", are ready ?\n";
+    
 };
 
 void player::answerInput(){
@@ -42,9 +42,10 @@ int player::getAnswerInput(){
 
 void player::getPoint(){
     system("cls");
+    cout<<"Corrected\n";
     point++;
     cout<<"Points : "<<point;
-    Sleep(1000);
+    Sleep(500);
 }
 
 
@@ -53,11 +54,11 @@ void count_down(){
     for(int i=3;i>0;i--){
         system("cls");
         cout<<i;
-        Sleep(1000);
+        Sleep(500);
     }
     system("cls");
     cout<<"---Start---";;
-    Sleep(1000);
+    Sleep(500);
 }
 
 void start_f(){
@@ -77,22 +78,39 @@ class question{
     private:
         int a,b,c,d;
         int result;
+        int diff;
     public:
-        void generateQuestion();
+        void generateQuestion(int diff);
         int getResult();
+        int chooseLevel();
         
 };
 
-void question::generateQuestion(){
+void question::generateQuestion(int diff){
     system("cls");
-    a = rand()%10;
-    b = rand()%10;
-    result = a + b;
-    cout<<a<<" + "<<b<<" = ";
+    a = rand()%20;
+    b = rand()%20;
+    c = rand()%20;
+    if(diff == 1){
+        result = a + b;
+        cout<<a<<" + "<<b<<" = ";
+    } else if(diff == 2){
+        result = a + b + c;
+        cout<<a<<" + "<<b<<" + "<<c<<" = ";
+    } else if(diff == 3){
+        result = a * b;
+        cout<<a<<" x "<<b<<" = ";
+    }
 }
 
 int question::getResult(){
     return result;
+}
+
+int question::chooseLevel(){
+    cout<<"Chosse level: Easy - Medium - Difficult (type 1 / 2 / 3 )\n";
+    cin >> diff;
+    return diff;
 }
 
 
@@ -102,32 +120,40 @@ int main(){
     
     //khởi tạo người chơi mặc định
     player p1;
-    p1.nameInput(); //người chơi nhập tên
-    
-    question q1; // khởi tạo câu hỏi mặc định
-
-    
-    
+    //người chơi nhập tên
+    p1.nameInput(); 
+    // khởi tạo câu hỏi mặc định
+    question q1; 
+    //chọn độ khó cho game
+    int diff_level = q1.chooseLevel(); 
     
     //bắt đầu trò chơi
     while(true){ 
         
         int quizNumber = 10;
-        start_f(); // bắt đầu vào game
-        count_down(); // chuẩn bị vào game
+        // bắt đầu vào game
+        start_f();
+        // chuẩn bị vào game
+        count_down(); 
             
         while(true){
-            auto start = std::chrono::steady_clock::now(); //bắt đầu tính giờ
+            //bắt đầu tính giờ
+            auto start = std::chrono::steady_clock::now(); 
             while(quizNumber--){
-                q1.generateQuestion(); //khởi tạo câu hỏi
+                //khởi tạo câu hỏi
+                q1.generateQuestion(diff_level); 
                 int temp_result = q1.getResult();
-
-                p1.answerInput(); //người chơi nhập câu trả lời
+                //người chơi nhập câu trả lời
+                p1.answerInput();
                 int temp_answer = p1.getAnswerInput();
                 Sleep(300);
 
                 if(temp_answer == temp_result){
-                    p1.getPoint();
+                    p1.getPoint();                    
+                } else {
+                    
+                    cout <<"Wrong answer.\nThe answer is "<<temp_answer;
+                    Sleep(500);
                 }
             }
 
