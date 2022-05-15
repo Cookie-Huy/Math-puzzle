@@ -18,6 +18,7 @@ class player{
         void Score();
         void getScore();
         void reset();
+        int ReS();
 };
 
 void player::nameInput(){
@@ -30,7 +31,6 @@ void player::nameInput(){
 void player::answerInput(){
     // nhập câu trả lời của người chơi
     cin >>answer;
-    cout<<"Player's answer : "<<answer<<"\n";
 }
 
 void player::getTime(float t)
@@ -59,6 +59,9 @@ void player::reset()
 {
     score=0;
 }
+int player::ReS(){
+    return score;
+}
 
 void count_down()
 {
@@ -82,18 +85,29 @@ class question
         int a,b,c,d;
         int result;
     public:
-        void generateQuestion();
+        void generateQuestion1();
+        void generateQuestion2();
         int getResult();
 
 };
 
-void question::generateQuestion()
+void question::generateQuestion1()
 {
     system("cls");
-    a = rand()%10;
-    b = rand()%10;
+    a = (rand()&1 ? -1:1) * rand()%10;
+    b = (rand()&1 ? -1:1) * rand()%10;
     result = a + b;
     cout<<a<<" + "<<b<<" = ";
+}
+
+void question::generateQuestion2()
+{
+    system("cls");
+    a = (rand()&1 ? -1:1) * rand()%10;
+    b = (rand()&1 ? -1:1) * rand()%10;
+    c = (rand()&1 ? -1:1) * rand()%10;
+    result = (a + b) * c;
+    cout<<"( "<<a<<" + "<<b<<" ) * "<<c<<" = ";
 }
 
 int question::getResult()
@@ -101,41 +115,66 @@ int question::getResult()
     return result;
 }
 
+void CorrectAns(){
+    int x=rand()%4+1;
+    switch(x){
+        case 1: cout<<"~ ~ ~ Correct ~ ~ ~ ";break;
+        case 2: cout<<"~ ~ ~ Welldone ~ ~ ~ ";break;
+        case 3: cout<<"~ ~ ~ Goodjob ~ ~ ~ ";break;
+        case 4: cout<<"~ ~ ~ That's right ! ~ ~ ~ ";break;                        
+    }
+    Sleep(1000);
+}
+
+void IncorrectAns(){
+    int x=rand()%4+1;
+    switch(x){
+        case 1: cout<<"~ ~ ~ Incorrect ~ ~ ~ ";break;
+        case 2: cout<<"~ ~ ~ Wrong!!!! ~ ~ ~ ";break;
+        case 3: cout<<"~ ~ ~ Oops ~ ~ ~ ";break;
+        case 4: cout<<"~ ~ ~ Game over ~ ~ ~ ";break;                        
+    }
+    Sleep(1000);
+}
 
 int main()
-{
-   //làm sạch terminal
-    system("cls");
+{ 
+    system("cls"); //làm sạch terminal
 
-    //khởi tạo người chơi mặc định
-    player p1;
-    p1.nameInput(); //người chơi nhập tên
+    while(true)
+    {    
+        player p1; //khởi tạo người chơi mặc định
+
+        p1.nameInput(); //người chơi nhập tên
     
-    question q1; // khởi tạo câu hỏi mặc định
+        question q1; // khởi tạo câu hỏi mặc định
 
     
-    cout<<"Press to start (Y/N)"<<"\n";
-    char start;
-    while(true)
-    {
-        cin >>start;
-        if(start == 'Y' || start =='y') break;
-        else
-        goto ketthuc;
-    }
-    // bắt đầu vào game
-    system("cls");
+        cout<<"Press to start (Y/N)"<<"\n"; // bắt đầu vào game
+        char start;
+        while(true)
+        {
+            cin >>start;
+            if(start == 'Y' || start =='y') break;
+            else
+            goto ketthuc;
+        }
+        system("cls");
     
-    while(true)
-    { 
+
         count_down(); // chuẩn bị vào game
             
         while(true)
             {
                 auto start = std::chrono::steady_clock::now(); //bắt đầu tính giờ
                 while(true)
-                {
-                    q1.generateQuestion(); //khởi tạo câu hỏi
+                {   
+                    if ( p1.ReS() > 4 ){ //khởi tạo câu hỏi
+                        q1.generateQuestion2();
+                    }
+                    else{
+                    q1.generateQuestion1(); 
+                    }
                     int temp_result = q1.getResult();
 
                     p1.answerInput(); //người chơi nhập câu trả lời
@@ -144,12 +183,13 @@ int main()
 
                     if(temp_answer == temp_result)
                     {   
-                        
+                        CorrectAns();
                         p1.getScore();
                         p1.Score();
                     }
                     else 
                     {
+                        IncorrectAns();
                         break;
                     }
                 }
@@ -168,8 +208,6 @@ int main()
             p1.reset();
             break;
         }
-        
-
 
         //hỏi player có muốn tiếp tục chơi hay không
         cout<<"Do you want to continue? (Y/N)"<<"\n"; 
@@ -179,6 +217,7 @@ int main()
         if(continiu=='N' || continiu=='n') break; //thoát khởi trò chơi
         else continue; //tiếp tục chơi
     }
+
     ketthuc:
     system("cls");
     cout<<"Thank you for your times";
