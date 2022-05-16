@@ -52,7 +52,7 @@ void player::getScore()
 void player::Score()
 {    
     cout<<"Score : "<<score;
-    Sleep(1000);
+    Sleep(500);
 }
 
 void player::reset()
@@ -74,7 +74,7 @@ void count_down()
     }
     system("cls");
     cout<<" --- Start --- ";;
-    Sleep(1000);
+    Sleep(500);
 }
 
 
@@ -94,8 +94,8 @@ class question
 void question::generateQuestion1()
 {
     system("cls");
-    a = (rand()&1 ? -1:1) * rand()%10;
-    b = (rand()&1 ? -1:1) * rand()%10;
+    a = (rand()&1 ? -1:1) * (rand()%9+1);
+    b = (rand()&1 ? -1:1) * (rand()%9+1);
     result = a + b;
     cout<<a<<" + "<<b<<" = ";
 }
@@ -123,7 +123,7 @@ void CorrectAns(){
         case 3: cout<<"~ ~ ~ Goodjob ~ ~ ~ ";break;
         case 4: cout<<"~ ~ ~ That's right ! ~ ~ ~ ";break;                        
     }
-    Sleep(1000);
+    Sleep(500);
 }
 
 void IncorrectAns(){
@@ -134,7 +134,7 @@ void IncorrectAns(){
         case 3: cout<<"~ ~ ~ Oops ~ ~ ~ ";break;
         case 4: cout<<"~ ~ ~ Game over ~ ~ ~ ";break;                        
     }
-    Sleep(1000);
+    Sleep(500);
 }
 
 int main()
@@ -179,7 +179,6 @@ int main()
 
                     p1.answerInput(); //người chơi nhập câu trả lời
                     int temp_answer = p1.getAnswerInput();
-                    Sleep(1000);
 
                     if(temp_answer == temp_result)
                     {   
